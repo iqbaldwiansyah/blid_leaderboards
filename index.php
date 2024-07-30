@@ -90,7 +90,7 @@
                         } elseif ($rank == 2) {
                             $color = 'silver';
                         } elseif ($rank == 3) {
-                            $color = 'bronze';
+                            $color = '#cc3300';
                         }
                         $profilePic = htmlspecialchars($row['profile_picture']);
                         $profilePicPath = $profilePic ? "" . htmlspecialchars($profilePic) : "images/BLIDICON.png";
