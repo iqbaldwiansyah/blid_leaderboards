@@ -4,6 +4,25 @@
 <div class="main-content">
     <h1>Leaderboard</h1>
 
+    <!-- Check if user is logged in and is a moderator -->
+    <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true): ?>
+        <?php
+        $user_id = $_SESSION['user_id'];
+        $sql = "SELECT role FROM users WHERE user_id = ?";
+        $stmt = $connection->prepare($sql);
+        $stmt->bind_param("i", $user_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $user = $result->fetch_assoc();
+        if ($user['role'] == 'moderator'):
+        ?>
+            <!-- Moderator Button -->
+            <div class="moderator-button">
+                <a href="moderator.php" class="btn">Moderator</a>
+            </div>
+        <?php endif; ?>
+    <?php endif; ?>
+
     <!-- Category Selection -->
     <div class="category-selection">
         <label for="category">Select Category:</label>
