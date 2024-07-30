@@ -64,7 +64,7 @@
                 $subcategory = isset($_GET['subcategory']) ? $connection->real_escape_string($_GET['subcategory']) : '';
 
                 // Build the SQL query
-                $sql = "SELECT u.username, l.best_time, l.car_used, l.youtube_link
+                $sql = "SELECT u.username, u.profile_picture, l.best_time, l.car_used, l.youtube_link
                         FROM leaderboards l
                         JOIN users u ON l.user_id = u.user_id
                         WHERE l.approved = 1";
@@ -79,7 +79,9 @@
                 $sql .= " ORDER BY l.best_time ASC";
                 $result = $connection->query($sql);
                 
-                if ($result->num_rows > 0) {
+                if (!$result) {
+                    echo "<tr><td colspan='5'>Error executing query: " . $connection->error . "</td></tr>";
+                } elseif ($result->num_rows > 0) {
                     $rank = 1;
                     while ($row = $result->fetch_assoc()) {
                         $color = '';
@@ -90,9 +92,12 @@
                         } elseif ($rank == 3) {
                             $color = 'bronze';
                         }
+                        $profilePic = htmlspecialchars($row['profile_picture']);
+                        $profilePicPath = $profilePic ? "" . htmlspecialchars($profilePic) : "images/BLIDICON.png";
+                        // Debugging output
                         echo "<tr>
                                 <td>" . $rank . "</td>
-                                <td><a href='user_profile.php?username=" . htmlspecialchars($row['username']) . "' style='color: $color;'>" . htmlspecialchars($row['username']) . "</a></td>
+                                <td><img src='" . $profilePicPath . "' alt='Profile Picture' width='30' height='30' style='border-radius: 50%; margin-right: 10px;'> <a href='user_profile.php?username=" . htmlspecialchars($row['username']) . "' style='color: $color;'>" . htmlspecialchars($row['username']) . "</a></td>
                                 <td>" . htmlspecialchars($row['best_time']) . "</td>
                                 <td>" . htmlspecialchars($row['car_used']) . "</td>
                                 <td><a href='" . htmlspecialchars($row['youtube_link']) . "' target='_blank'>Watch</a></td>

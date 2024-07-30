@@ -33,7 +33,7 @@ $connection->close();
             <p>Username: <?php echo htmlspecialchars($user['username']); ?></p>
             <p>Email: <?php echo htmlspecialchars($user['email']); ?></p>
             <?php if ($user['profile_picture']): ?>
-                <img src="uploads/profile_pictures/<?php echo htmlspecialchars($user['profile_picture']); ?>" alt="Profile Picture" width="150">
+                <img src="<?php echo htmlspecialchars($user['profile_picture']); ?>" alt="Profile Picture" width="150">
             <?php else: ?>
                 <p>No profile picture uploaded.</p>
             <?php endif; ?>

@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 mkdir($upload_dir, 0755, true);
             }
             if (move_uploaded_file($_FILES['profile_picture']['tmp_name'], $upload_dir . $file_name)) {
-                $profile_picture = $file_name;
+                $profile_picture = $upload_dir . $file_name;
             }
         }
     }
